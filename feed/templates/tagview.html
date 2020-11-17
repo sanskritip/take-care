@@ -1,0 +1,23 @@
+{% include 'main.html' %}
+{% block recommend %}
+<div>
+    "these are the tags in your db:"
+    <ul>
+        <li> post - author - likecount - tagname </li>
+        {% for i in list %}
+            
+            <li>
+                {{i.content_object.title}}---{{ i.content_object.author }}----{{ i.content_object.likes.count }}---{{i.name}} 
+            </li>
+
+        {% endfor %}
+    </ul>
+    <br>
+    <hr>
+    <br>
+    <h1> RECOMMENDED: </h1>
+    {% include 'blog_display.html' %}
+    {% include 'displaypic.html' %}
+    {% include 'display.html' %}
+</div>
+{% endblock recommend %}

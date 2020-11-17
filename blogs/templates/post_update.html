@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<html>
+<head>
+<title>Posts</title>
+</head>
+
+<body>
+<h1>Edit Post</h1>
+
+<form  method="POST" >
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Edit Post" />
+</form>
+<br/><br/>
+
+
+</body>
+
+</html>
+{% endblock content %}

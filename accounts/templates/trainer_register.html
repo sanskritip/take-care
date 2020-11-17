@@ -1,0 +1,75 @@
+<html>
+{% load static %}
+<head>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="{% static 'css/reg.css' %}" rel="stylesheet"/>
+<!------ Include the above in your HEAD tag ---------->
+</head>
+<body>
+  <div id="initial">
+    <br><br><br>
+  <h1>Let's Inspire Together!<br>Register Now!</h1>
+<div id="login-button">
+  <img src="https://dqcgrsy5v35b9.cloudfront.net/cruiseplanner/assets/img/icons/login-w-icon.png">
+  </img>
+</div>
+</div>
+<div id="container">
+
+  <form method="POST" action = "">
+      {% csrf_token %}
+      <div class="input-group" align-content="center">
+          <div class="input--style-1" placeholder="NAME" align="center" >
+          {{form.username}}
+          </div>
+      </div>
+
+      <div class="input-group input" placeholder = "email" align="center">
+          {{form.email}}
+      </div>
+
+      <div class="input-group" align="center">
+          <div class="input--style-1" type="text" placeholder="Password" name="res_code">
+              {{form.password1}}
+          </div>
+      </div>
+
+      <div class="input-group" align="center">
+          <div class="input--style-1" type="text" placeholder="Password" name="res_code">
+              {{form.password2}}
+          </div>
+      </div>
+      <div class="p-t-20" align="center">
+          <button class="btn btn--radius btn--green" type="submit">Submit</button>
+      </div>
+  </form>
+</div>
+
+   <script>
+        var form_fields = document.getElementsByTagName('input')
+        form_fields[1].placeholder='Username';
+        form_fields[2].placeholder='Email';
+        form_fields[3].placeholder='Enter password';
+        form_fields[4].placeholder='Confirm Password';
+    </script>
+<script>
+    $('#login-button').click(function(){
+  $('#login-button').fadeOut("slow",function(){
+    $("#container").fadeIn();
+    TweenMax.from("#container", .4, { scale: 0, ease:Sine.easeInOut});
+    TweenMax.to("#container", .4, { scale: 1, ease:Sine.easeInOut});
+  });
+});
+
+$(".close-btn").click(function(){
+  TweenMax.from("#container", .4, { scale: 1, ease:Sine.easeInOut});
+  TweenMax.to("#container", .4, { left:"0px", scale: 0, ease:Sine.easeInOut});
+  $("#container, #forgotten-container").fadeOut(800, function(){
+    $("#login-button").fadeIn(800);
+  });
+});
+</script>
+</body>
+</html>

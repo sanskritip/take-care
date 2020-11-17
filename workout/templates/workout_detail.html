@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card mb-4">
+          <div class="card-body">
+              <h2 class="card-title">{{ workout.title }}</h2>
+              <div class="embed-responsive embed-responsive-16by9">
+                  <video width="320" height="240" controls>
+                      <source src='/media/{{ workout.videofile }}' type="video/mp4">
+                  </video>
+              </div>
+              <p class="card-text text-muted h6">{{ workout.author }} | {{ workout.created_on}} </p>
+              <p class="card-text">{{workout.caption|slice:":200" }}</p>
+              <div>
+<!---likes --->
+<span class="card-text text-muted h6">{{ workout.likes.count }} Likes
+                {% if workout not in worklikelist %}
+                <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                {% else %}
+                <a href="{% url 'like_work' workout.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down ">
+
+                </a>
+              {% endif %}
+
+            </span>
+                </div>
+              </div>
+           </div>
+              <div class = "list-group">
+              {% for i in comments %}
+                      <a href="#" class="list-group-item list-group-item-action list-group-item-light"><B>@{{ i.author }}</B><I> says </I>{{ i.body }}</a>
+              {% endfor %}
+              </div>
+              {% if user.is_authenticated and user == workout.author %}
+                  <a href="{% url 'workout_update' workout.slug  %}" class="btn btn-primary">Update &rarr;</a>
+                  <a href="{% url 'workout_delete' workout.slug  %}" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this?')">Delete &rarr;</a>
+              {% else %}
+                  <form action="{% url 'workout_comment' workout.slug  %}" method = "post">
+                      {% csrf_token %}
+                      <div class="input-group mb-3">
+                          <input type="text" name='message' class="form-control" placeholder="Leave a Comment" aria-label="Leave a comment" aria-describedby="button-addon2">
+                          <div class="input-group-append">
+                              <!--input id="submit" class="btn btn-primary" name="submit" type="submit" value="Post"-->
+                              <!--a href="{% url 'workout_comment' workout.slug  %}" class="btn btn-primary">Post &rarr;</a-->
+                              <button name="submit" value="{{ message }}" class="btn btn-primary" type="submit" id="button-addon2">Post &rarr;</button>
+                          </div>
+                      </div>
+                  </form>
+              {% endif %}
+          </div>
+      </div>
+    </div>
+{% endblock content %}

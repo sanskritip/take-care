@@ -1,0 +1,78 @@
+{% block content %}
+    <body>
+        {% for i in bio %}
+            <header class="masthead" style="padding-top: 20px;">
+            <div class="container">
+                <img style="border-radius:50%;" height="200px" width="200px" src='/media/{{ i.displayimage }}' alt="profile-image" class="profile" style="padding-bottom:10px;"/>
+                <div class="masthead-subheading">{{ i.firstname }} {{i.lastname}} : {{ i.user }}</div>
+                <div class="masthead-subheading" style="font-size: 20px;">I am a {{ groupname }}.</div>
+                <div class="masthead-heading" style="font-size: 30px;">{{ i.status|slice:":200" }}</div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 text-center">
+                        <h4><strong>{{ followers }}</strong></h4>
+                        <p><small>Followers</small></p>
+                    </div>
+                    <div class="col-md-4 col-sm-6 text-center">
+                        <h4><strong>{{ following }}</strong></h4>
+                        <p><small>Following</small></p>
+                    </div>
+                    <div class="col-md-4 col-sm-6 text-center">
+                        <h4><strong>{{ nofposts }}</strong></h4>
+                        <p><small>Posts</small></p>
+                    </div>
+                <hr>
+                {% if editable %}
+                <div class="col-md-4 col-sm-6 text-center">
+
+                      <a href="{% url 'auth_display' %}" class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" style="text-align: middle;">Fitness Data</a>
+                </div>
+                <div class="col-md-4 col-sm-6 text-center">
+                  <a href="{% url 'bio_update' %}" class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" style="text-align: middle;">Update Bio</a>
+                </div>
+                <div class="col-md-4 col-sm-6 text-center">
+
+                        <a href="{% url 'saved' %}" class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" style="text-align: middle;">Your Saves</a>
+                </div>
+                {% endif %}
+
+            </div>
+            </header>
+            <!--div class="container">
+            <div class="col-10">
+            <div class="col-md-8">
+                <div class="card profile-card-3">
+                    <div class="card-body pt-4">
+                        <div class="col-md-4 col-sm-12 text-center">
+                        <div class="profile-thumb-block">
+                        {% if i.displayimage %}
+                        <img style="border-radius:50%;" height="100px" width="100px" src='/media/{{ i.displayimage }}' alt="profile-image" class="profile"/>
+                        {% else %}
+                        <img style="border-radius:50%;" height="100px" width="100px" src='/media/defaultprofilepic.png' alt="profile-image" class="profile"/>
+                        {% endif %}
+                        </div>
+                        <h3 class="card-title text-center">{{ i.firstname }} {{i.lastname}}</h3>
+                        </div>
+                        <div class="col-md-4 col-sm-20 text-center">
+                            <p class="card-text">{{ i.status|slice:":200" }}</p>
+                        </div>
+                        <hr>
+                        <div class="row">
+                        <div class="col-md-4 col-sm-6 text-center">
+                            <h4><strong>{{ followers }}</strong></h4>
+                            <p><small>Followers</small></p>
+                        </div>
+                        <div class="col-md-4 col-sm-6 text-center">
+                            <h4><strong>{{ following }}</strong></h4>
+                            <p><small>Following</small></p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div-->
+        {% endfor %}
+    </body>
+{% endblock content %}
+</html>

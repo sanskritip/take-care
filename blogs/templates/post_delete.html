@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+{%if request.user.is_authenticated and request.user.username == user %}
+<h1>Delete {{ post.title }}?</h1>
+<form method="POST" action="">
+{% csrf_token %}
+Are you sure you want to delete this post?
+<input type="submit" value="Yes"/>
+<a href="/blogs/yourposts">Cancel </a>
+</form>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card mb-4">
+          <div class="card-body">
+              <h2 class="card-title">{{ picture.title }}</h2>
+              <div class="embed-responsive" >
+                  <img class ="card-img-top" alt='Post' src='/media/{{ picture.image }}' />
+
+              </div>
+              <p class="card-text text-muted h6">{{ picture.author }} | {{ picture.created_on}} </p>
+              <p class="card-text">{{picture.caption|slice:":200" }}</p>
+              <div>
+<!---likes --->
+<span class="card-text text-muted h6">{{ picture.likes.count }} Likes
+                {% if picture not in postlike %}
+                <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                {% else %}
+                <a href="{% url 'like_post' picture.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+              {% endif %}
+
+            </span>
+                </div>
+
+              <div class = "list-group">
+              {% for i in piccomments %}
+                  {% if i.picture == picture %}
+                      <a href="#" class="list-group-item list-group-item-action list-group-item-light"><B>@{{ i.author }}</B><I> says </I>{{ i.body }}</a>
+                  {% endif %}
+              {% endfor %}
+              <a href="{% url 'picture_detail' picture.slug %}" class="btn btn-primary">Show More &rarr;</a>
+              </div>
+              {% if user.is_authenticated and user == picture.author %}
+                  <a href="{% url 'picture_update' picture.slug  %}" class="btn btn-primary">Update &rarr;</a>
+                  <a href="{% url 'picture_delete' picture.slug  %}" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this?')">Delete &rarr;</a>
+              {% else %}
+                  <form action="{% url 'picture_comment' picture.slug  %}" method = "post">
+                      {% csrf_token %}
+                      <div class="input-group mb-3">
+                          <input type="text" name='messages' class="form-control" placeholder="Leave a Comment" aria-label="Leave a comment" aria-describedby="button-addon2">
+                          <div class="input-group-append">
+                              <!--input id="submit" class="btn btn-primary" name="submit" type="submit" value="Post"-->
+                              <!--a href="{% url 'picture_comment' picture.slug  %}" class="btn btn-primary">Post &rarr;</a-->
+                              <button name="submit" value="{{ messages }}" class="btn btn-primary" type="submit" id="button-addon2">Post &rarr;</button>
+                          </div>
+                      </div>
+                  </form>
+              {% endif %}
+          </div>
+      </div>
+          </div>
+      </div>
+    </div>
+{% endblock content %}

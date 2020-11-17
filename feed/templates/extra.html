@@ -1,0 +1,6 @@
+<h5 class="card-title">  <a href="{% url 'profile' person.followed_to %}" >{{ person.followed_to }}</a></h5>
+{% if not person.follow_exists %}
+<a href="{% url 'followSet' person.followed_to %}" class="btn btn-primary">follow</a>
+{% else %}
+  <a href="{% url 'followSet' person.followed_to %}" class="btn btn-primary btn-danger">unfollow</a>
+{% endif %}

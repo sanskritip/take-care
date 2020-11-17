@@ -1,0 +1,158 @@
+
+<!--style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+    }
+
+    .head_text {
+        color: white;
+    }
+    .active{
+        background-color: red;
+    }
+    .card {
+        box-shadow: 0 16px 48px rgb(1, 11, 20);
+    }
+</style>
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-8 mt-3 left">
+            {% for post in obj %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
+                    <p class="card-text">{{post.content|slice:":200" }}</p>
+                    <div>
+                    <span class="card-text text-muted h6">{{ post.likes.count }} Likes
+                    {% if follow %}
+                        {% if post not in likelist %}
+                            <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary fa fa-thumbs-up"></a>
+                        {% else %}
+                            <a href="{% url 'like_blog' post.slug %}" class="btn btn-primary btn-danger fa fa-thumbs-down "></a>
+                        {% endif %}
+                    {% endif %}
+                    {% if not editable %}
+                        {% if post not in savelist %}
+                            <a href="{% url 'save_blog' post.slug %}" class="btn btn-primary bg-navy fa fa-save"></a>
+                        {% else %}
+                            <a href="{% url 'save_blog' post.slug %}" class="btn btn-primary btn-danger bg-orange fa fa-save "></a>
+                        {% endif %}
+                    {% endif %}
+                    </span>
+
+                        {% if user.is_authenticated and user == post.author %}
+                          <a href="{% url 'post_update' post.slug  %}" class="btn btn-primary">Update &rarr;</a>
+                          <a href="{% url 'post_delete' post.slug  %}" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this?')">Delete &rarr;</a>
+                        {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+    </div>
+</div-->
+
+{% block content %}
+<div class="row">
+    {% for post in obj %}
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="portfolio-item">
+
+                <div class="portfolio-caption">
+                    <div class="portfolio-caption-heading">{{ post.title }}</div>
+                </div>
+                <a class="portfolio-link" data-toggle="modal" href="#portfolio-modal-blog{{ post.id }}">
+                <div class="portfolio-hover">
+                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                </div>
+                </a>
+                <div class="portfolio-caption">
+                    <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
+                    <div class="portfolio-caption-subheading text-muted">{{ post.content|slice:":200" }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="portfolio-modal modal fade" id="portfolio-modal-blog{{ post.id }}" tabindex="-1" role="dialog" aria-hidden="true" style="margin-left: 140px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-dismiss="modal"><i class="fas fa-2x fa-window-close text-primary mb-4"></i></div>
+                    <div class="container" style="align-self: center;">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project Details Go Here-->
+                                    <h2 class="portfolio-caption-heading">{{ post.title }}</h2>
+                                    <p>{{ post.author }} | {{ post.created_on}}</p>
+                                    <p>{{ post.content | safe }}</p>
+                                    <div>
+                                        <span class="card-text text-muted h6">{{ post.likes.count }} Likes
+                                            {% if follow %}
+                                                {% if post not in likelist %}
+                                                    <a href="{% url 'like_blog' post.slug %}"><i class="fas fa-2x far fa-heart text-primary mb-4"></i></a>
+                                                {% else %}
+                                                    <a href="{% url 'like_blog' post.slug %}"><i class="fas fa-2x fas fa-heart text-primary mb-4"></i></a>
+                                                {% endif %}
+                                            {% endif %}
+                                            <br>
+                                            {{ post.saves.count }} Saves
+                                            {% if not editable %}
+                                                {% if post not in savelist %}
+                                                    <a href="{% url 'save_blog' post.slug %}"><i class="fas fa-2x far fa-save text-primary mb-4"></i></a>
+                                                {% else %}
+                                                    <a href="{% url 'save_blog' post.slug %}"><i class="fas fa-2x fas fa-save text-primary mb-4"></i></a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <br>
+                                    <div class = "list-group">
+                                    <h2>{{ postcomments.count }} postcomments</h2>
+                                        {% for i in postcomments %}
+
+                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light">
+                                                <div class="comments" style="padding: 10px;">
+                                                <p class="font-weight-bold">
+                                                {{ i.author }}
+                                                <span class=" text-muted font-weight-normal">
+                                                    {{ i.created_on }}
+                                                </span>
+                                                </p>
+                                                {{ i.body | linebreaks }}
+                                                </div></a>
+
+                                        {% endfor %}
+                                    </div>
+                                    <br>
+                                    {% if user.is_authenticated and user == post.author %}
+                                        <a href="{% url 'post_update' post.slug  %}" class="btn btn-primary">Update</a>
+                                        <a href="{% url 'post_delete' post.slug  %}" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                                        {% elif follow %}
+                                            <form action="{% url 'blog_comment' post.slug  %}" method = "post">
+                                                {% csrf_token %}
+                                                <div class="input-group mb-3">
+                                                    <input type="text" name='messages' class="form-control" placeholder="Leave a Comment" aria-label="Leave a comment" aria-describedby="button-addon2">
+                                                    <div class="input-group-append">
+                                                        <button name="submit" value="{{ messages }}" class="btn btn-primary" type="submit" id="button-addon2">Post</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                    {% endif %}
+                                    <button class="btn btn-primary" data-dismiss="modal" type="button"><i class="fas fa-times mr-1"></i>Close Project</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+</div>
+{% endblock %}

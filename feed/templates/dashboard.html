@@ -1,0 +1,117 @@
+{% extends 'main.html' %}
+{% block content %}
+<!DOCTYPE html>
+  <html lang="en">
+    {% load static %}
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Dashboard</title>
+      <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+      <!-- Font Awesome icons (free version)-->
+      <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+      <!-- Google fonts-->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+      <!-- Core theme CSS (includes Bootstrap)-->
+      <link href="{% static 'css/stylesss.css' %}" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+      <br>
+      <br>
+      <br>
+        {% include 'displaybio.html' %}
+
+        <section class="page-section bg-light" id="portfolio">
+          <div class="container">
+
+            <div class="text-center">
+              <h2 class="section-heading text-uppercase">Dashboard</h2>
+            </div>
+          <br>
+
+          <br>
+          <div class="text-center">
+            <h3 class="section-subheading text-muted">Blogs</h3>
+          </div>
+            {% block userblogs %}
+              {% include 'blog_display.html' %}
+            {% endblock userblogs %}
+            {% if user.is_authenticated and editable %}
+              <div class="text-center">
+                <a class="btn btn-info" href = "{% url 'addpost' %}">Add blog</a>
+              </div>
+            {% endif %}
+          <br>
+          <hr>
+
+          <br>
+
+          <div class="text-center">
+            <h3 class="section-subheading text-muted">Posts</h3>
+          </div>
+            {% block pictures %}
+              {% include 'displaypic.html' %}
+            {% endblock pictures %}
+            {% if user.is_authenticated and editable %}
+              <div class="text-center">
+                <a class="btn btn-info" href = "{% url 'addpicture' %}">Add post</a>
+              </div>
+            {% endif %}
+          <br>
+          <hr>
+
+          <br>
+          <div class="text-center">
+            <h3 class="section-subheading text-muted">Workouts</h3>
+          </div>
+            {% block workouts %}
+              {% include 'display.html' %}
+            {% endblock workouts %}
+            {% if user.is_authenticated and editable %}
+              <div class="text-center">
+                <a class="btn btn-info" href = "{% url 'addworkout' %}">Add workout</a>
+              </div>
+            {% endif %}
+          <br>
+          <hr>
+
+          <br>
+          <div class="text-center">
+            <h3 class="section-subheading text-muted">Playlists</h3>
+          </div>
+          {% block userplaylist %}
+       {% if spotifyUser %}
+       {% include 'displayplaylist.html' %}
+       {% else %}
+           <form action="{% url 'createSpotifyUser' %}" method = "post">
+               {% csrf_token %}
+               <div class="input-group mb-3" style="width: 45%;left: 250px;top:10px">
+                   <input type="text" name='idbro' class="form-control" placeholder="Enter Spotify ID to continue" aria-label="Enter User ID" aria-describedby="button-addon2">
+                   <div class="input-group-append">
+                       <button name="submit" class="btn btn-primary" value = "submit" type="submit" id="button-addon2">submit</button>
+                   </div>
+               </div>
+           </form>
+       {% endif %}
+   {% endblock userplaylist %}
+          <br>
+
+          </div>
+        </section>
+        
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+      <!-- Third party plugin JS-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+      <!-- Contact form JS-->
+      <script src="assets/mail/jqBootstrapValidation.js"></script>
+      <script src="assets/mail/contact_me.js"></script>
+      <!-- Core theme JS-->
+      <script src="{% static 'js/scripts.js' %}"></script>
+    </body>
+  </html>
+{% endblock content %}
