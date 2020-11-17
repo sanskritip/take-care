@@ -26,7 +26,9 @@ SECRET_KEY = ')*oly2f@w_i2a(zplcp8t1l44yc_6+5sa_vg!=@#rmpyqen%#g'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "35.238.251.29"
+    "35.238.251.29",
+    "127.0.0.1",
+    "www.takecare.tk"
 ]
 
 
