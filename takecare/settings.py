@@ -25,7 +25,9 @@ SECRET_KEY = ')*oly2f@w_i2a(zplcp8t1l44yc_6+5sa_vg!=@#rmpyqen%#g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "35.238.251.29"
+]
 
 
 # Application definition
