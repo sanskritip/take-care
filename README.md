@@ -1,12 +1,12 @@
 # Take.care - Your Personal site for fitness and your well being
 
-**Webiste Pages**
-- Homepage : http://127.0.0.1:8000/start-page
-- Newsfeed : http://127.0.0.1:8000/newsfeed/
-- Explore : http://127.0.0.1:8000/explore/
-- Dashboard : http://127.0.0.1:8000/dashboard/
-- Google Fit Data Dashboard : http://127.0.0.1:8000/fit/
-- Saved Content : http://127.0.0.1:8000/saved/
+**Website Pages**
+- Homepage : /start-page
+- Newsfeed : /newsfeed/
+- Explore : /explore/
+- Dashboard : /dashboard/
+- Google Fit Data Dashboard : /fit/
+- Saved Content : /saved/
 
 **Key Elements**
 - See Posts, Workout Videos, Recipes and Blogs shared by your friends.
